@@ -3,10 +3,10 @@ from datetime import date
 from enum import Enum
 
 from sqlalchemy import String, Integer, Float, Boolean, Date, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.base import Base, TimestampMixin
+from app.models.base import Base, JSONBType, TimestampMixin
 
 
 class TaskPriority(str, Enum):
@@ -48,7 +48,7 @@ class Task(Base, TimestampMixin):
     source_id: Mapped[str | None] = mapped_column(String(255))  # ID in external system
 
     # Extra data from integration providers
-    metadata_: Mapped[dict | None] = mapped_column("metadata", JSONB)
+    metadata_: Mapped[dict | None] = mapped_column("metadata", JSONBType)
 
     user = relationship("User", back_populates="tasks")
     events = relationship("Event", back_populates="task")

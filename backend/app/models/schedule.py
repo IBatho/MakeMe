@@ -3,10 +3,10 @@ from datetime import date
 from enum import Enum
 
 from sqlalchemy import String, Integer, Float, Boolean, Date, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.base import Base, TimestampMixin
+from app.models.base import Base, JSONBType, TimestampMixin
 
 
 class ScheduleStatus(str, Enum):
@@ -32,7 +32,7 @@ class Schedule(Base, TimestampMixin):
     agent_version: Mapped[str | None] = mapped_column(String(50))
     agent_confidence: Mapped[float | None] = mapped_column(Float)
     # Snapshot of context (tasks, constraints) used when the schedule was generated
-    generation_context: Mapped[dict | None] = mapped_column(JSONB)
+    generation_context: Mapped[dict | None] = mapped_column(JSONBType)
 
     # User feedback (filled in after the schedule period ends)
     user_rating: Mapped[int | None] = mapped_column(Integer)

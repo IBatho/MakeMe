@@ -207,6 +207,8 @@ marimo/_lsp/
 __marimo__/
 
 # Flutter
+# Un-ignore mobile/lib/ (root gitignore has a Python `lib/` rule that would catch it)
+!mobile/lib/
 mobile/.dart_tool/
 mobile/.flutter-plugins
 mobile/.flutter-plugins-dependencies

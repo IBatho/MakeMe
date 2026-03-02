@@ -19,6 +19,8 @@ async def list_events(
     start: Optional[datetime] = Query(None, description="Filter events starting on or after this time"),
     end: Optional[datetime] = Query(None, description="Filter events ending on or before this time"),
     is_agent_created: Optional[bool] = Query(None),
+    limit: int = Query(100, ge=1, le=1000),
+    offset: int = Query(0, ge=0),
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
@@ -29,6 +31,7 @@ async def list_events(
         q = q.where(Event.end_time <= end)
     if is_agent_created is not None:
         q = q.where(Event.is_agent_created == is_agent_created)
+    q = q.limit(limit).offset(offset)
     result = await db.execute(q)
     return result.scalars().all()
 

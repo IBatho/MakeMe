@@ -31,5 +31,26 @@ class Settings(BaseSettings):
     CELERY_BROKER_URL: str = "redis://localhost:6379/1"
     CELERY_RESULT_BACKEND: str = "redis://localhost:6379/2"
 
+    # OAuth — Notion
+    NOTION_CLIENT_ID: str = ""
+    NOTION_CLIENT_SECRET: str = ""
+
+    # OAuth — Google Calendar
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: str = ""
+
+    # OAuth redirect base (backend URL that providers redirect back to)
+    OAUTH_REDIRECT_BASE_URL: str = "http://localhost:8000"
+
+    # Mobile deep-link scheme used after OAuth success
+    MOBILE_DEEP_LINK_SCHEME: str = "makeme"
+
+    # OAuth — Microsoft 365 / Graph API
+    MICROSOFT_CLIENT_ID: str = ""
+    MICROSOFT_CLIENT_SECRET: str = ""
+
+    # Anthropic API key for LLM advisor (Phase 5 — optional)
+    ANTHROPIC_API_KEY: str = ""
+
 
 settings = Settings()

@@ -38,4 +38,5 @@ class ActivityLog(Base):
     device_id: Mapped[str | None] = mapped_column(String(255))
     source: Mapped[str] = mapped_column(String(20), default="mobile", nullable=False)
 
+    user = relationship("User", back_populates="activity_logs")
     event = relationship("Event", back_populates="activity_logs")

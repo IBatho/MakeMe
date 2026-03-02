@@ -82,4 +82,4 @@ async def test_delete_task(client: AsyncClient, auth_headers: dict):
 
 async def test_task_requires_auth(client: AsyncClient):
     resp = await client.get("/api/v1/tasks")
-    assert resp.status_code == 403
+    assert resp.status_code in (401, 403)

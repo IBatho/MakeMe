@@ -18,6 +18,18 @@ celery_app.conf.update(
     result_serializer="json",
     timezone="UTC",
     enable_utc=True,
-    # Beat schedule (Phase 2+)
-    beat_schedule={},
+    beat_schedule={
+        "sync-all-integrations-every-15-min": {
+            "task": "workers.sync_worker.sync_all_integrations",
+            "schedule": 900,  # 15 minutes
+        },
+        "aggregate-location-data-hourly": {
+            "task": "workers.agent_worker.aggregate_all_location_data",
+            "schedule": 3600,  # 1 hour
+        },
+        "detect-patterns-nightly": {
+            "task": "workers.agent_worker.detect_all_patterns",
+            "schedule": 86400,  # 24 hours
+        },
+    },
 )

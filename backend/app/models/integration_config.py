@@ -2,10 +2,10 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import String, Boolean, DateTime, ForeignKey, LargeBinary
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.base import Base, TimestampMixin
+from app.models.base import Base, JSONBType, TimestampMixin
 
 
 class IntegrationConfig(Base, TimestampMixin):
@@ -43,6 +43,6 @@ class IntegrationConfig(Base, TimestampMixin):
     sync_cursor: Mapped[str | None] = mapped_column(String(1000))  # pagination delta token
 
     # Provider-specific config (e.g. notion_database_id, calendar_id)
-    config: Mapped[dict | None] = mapped_column(JSONB)
+    config: Mapped[dict | None] = mapped_column(JSONBType)
 
     user = relationship("User", back_populates="integration_configs")

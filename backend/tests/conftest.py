@@ -43,11 +43,22 @@ async def client() -> AsyncGenerator[AsyncClient, None]:
 
 @pytest_asyncio.fixture
 async def auth_headers(client: AsyncClient) -> dict:
-    """Register a test user and return Authorization headers."""
+    """Register a test user and return Authorization headers.
+
+    Uses a fixed email. The first call registers; subsequent calls within the
+    same session log in (the user already exists).
+    """
+    email = "fixture@example.com"
     resp = await client.post(
         "/api/v1/auth/register",
-        json={"email": "test@example.com", "password": "password123", "timezone": "UTC"},
+        json={"email": email, "password": "password123", "timezone": "UTC"},
     )
-    assert resp.status_code == 201
+    if resp.status_code == 400:
+        # Already registered in this session; log in instead
+        resp = await client.post(
+            "/api/v1/auth/login",
+            json={"email": email, "password": "password123"},
+        )
+    assert resp.status_code in (200, 201)
     token = resp.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}

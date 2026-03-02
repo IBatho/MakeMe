@@ -15,10 +15,10 @@ async def test_register(client: AsyncClient):
 
 
 async def test_register_duplicate_email(client: AsyncClient, auth_headers: dict):
-    # test@example.com is already registered by the auth_headers fixture
+    # fixture@example.com is already registered by the auth_headers fixture
     resp = await client.post(
         "/api/v1/auth/register",
-        json={"email": "test@example.com", "password": "password123"},
+        json={"email": "fixture@example.com", "password": "password123"},
     )
     assert resp.status_code == 400
 
@@ -67,9 +67,9 @@ async def test_refresh(client: AsyncClient):
 async def test_get_me(client: AsyncClient, auth_headers: dict):
     resp = await client.get("/api/v1/users/me", headers=auth_headers)
     assert resp.status_code == 200
-    assert resp.json()["email"] == "test@example.com"
+    assert resp.json()["email"] == "fixture@example.com"
 
 
 async def test_get_me_unauthenticated(client: AsyncClient):
     resp = await client.get("/api/v1/users/me")
-    assert resp.status_code == 403
+    assert resp.status_code in (401, 403)  # HTTPBearer returns 401 or 403 depending on FastAPI version

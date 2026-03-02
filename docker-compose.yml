@@ -55,5 +55,18 @@ services:
       - ./backend:/app
     command: celery -A workers.celery_app worker --loglevel=info
 
+  celery-beat:
+    build: ./backend
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: celery -A workers.celery_app beat --loglevel=info
+
 volumes:
   postgres_data:

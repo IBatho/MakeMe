@@ -3,10 +3,10 @@ from datetime import datetime
 from enum import Enum
 
 from sqlalchemy import String, Boolean, Float, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.base import Base, TimestampMixin
+from app.models.base import Base, JSONBType, TimestampMixin
 
 
 class EventStatus(str, Enum):
@@ -53,7 +53,7 @@ class Event(Base, TimestampMixin):
     completion_percentage: Mapped[float] = mapped_column(Float, default=0.0, nullable=False)
 
     # Provider-specific extra fields
-    metadata_: Mapped[dict | None] = mapped_column("metadata", JSONB)
+    metadata_: Mapped[dict | None] = mapped_column("metadata", JSONBType)
 
     user = relationship("User", back_populates="events")
     task = relationship("Task", back_populates="events")

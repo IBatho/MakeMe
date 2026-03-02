@@ -17,6 +17,8 @@ router = APIRouter()
 async def list_tasks(
     priority: Optional[TaskPriority] = Query(None),
     is_complete: Optional[bool] = Query(None),
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
@@ -25,6 +27,7 @@ async def list_tasks(
         q = q.where(Task.priority == priority)
     if is_complete is not None:
         q = q.where(Task.is_complete == is_complete)
+    q = q.limit(limit).offset(offset)
     result = await db.execute(q)
     return result.scalars().all()
 

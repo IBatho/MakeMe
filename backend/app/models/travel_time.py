@@ -2,10 +2,10 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import Float, Integer, String, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.models.base import Base, TimestampMixin
+from app.models.base import Base, JSONBType, TimestampMixin
 
 
 class TravelTime(Base, TimestampMixin):
@@ -39,8 +39,8 @@ class TravelTime(Base, TimestampMixin):
     max_duration_minutes: Mapped[float | None] = mapped_column(Float)
 
     # Time-of-day segmentation (24-item list, index = hour 0–23)
-    hourly_means: Mapped[dict | None] = mapped_column(JSONB)
+    hourly_means: Mapped[dict | None] = mapped_column(JSONBType)
     # Day-of-week means (keys "0"–"6", 0=Monday)
-    day_of_week_means: Mapped[dict | None] = mapped_column(JSONB)
+    day_of_week_means: Mapped[dict | None] = mapped_column(JSONBType)
 
     last_observed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
