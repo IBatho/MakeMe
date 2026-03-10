@@ -13,7 +13,9 @@
       "Bash(where:*)",
       "Bash(reg query:*)",
       "Bash(yes:*)",
-      "Bash(source:*)"
+      "Bash(source:*)",
+      "Read(//c/Program Files/Android/Android Studio/jbr/bin/**)",
+      "Read(//c/Program Files/Android/Android Studio/jre/bin/**)"
     ]
   }
 }
