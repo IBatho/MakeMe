@@ -9,8 +9,6 @@ Future<void> showScheduleRatingDialog(
   WidgetRef ref,
   String scheduleId,
 ) async {
-  int? selectedRating;
-
   final confirmed = await showDialog<int>(
     context: context,
     builder: (ctx) => _RatingDialog(scheduleId: scheduleId),

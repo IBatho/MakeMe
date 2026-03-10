@@ -57,6 +57,15 @@ class _ActivityTrackerScreenState extends ConsumerState<ActivityTrackerScreen> {
     final tracking = ref.watch(activityProvider);
     final notifier = ref.read(activityProvider.notifier);
 
+    // Start/stop the elapsed timer whenever tracking state changes.
+    ref.listen<TrackingState>(activityProvider, (prev, next) {
+      if (next.isTracking && !(prev?.isTracking ?? false)) {
+        _startTimer();
+      } else if (!next.isTracking && (prev?.isTracking ?? false)) {
+        _stopTimer();
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(title: const Text('Activity Tracker')),
       body: tracking.isTracking
@@ -363,7 +372,3 @@ class TrackActivityButton extends ConsumerWidget {
   }
 }
 
-// Workaround for FontFeature in case it's not imported
-class FontFeature {
-  const FontFeature.tabularFigures();
-}

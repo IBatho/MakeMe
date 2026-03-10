@@ -4,7 +4,16 @@
       "Bash(python3:*)",
       "Bash(python:*)",
       "Bash(flutter:*)",
-      "Bash(where flutter)"
+      "Bash(where flutter)",
+      "Bash(tail:*)",
+      "Bash(cd \"/c/Users/mrisa/OneDrive - The University of Manchester/projects/MakeMe/backend\" && \"/c/Users/mrisa/OneDrive - The University of Manchester/projects/MakeMe/env/Scripts/python\" -m pytest tests/ -v 2>&1)",
+      "Bash(cd \"/c/Users/mrisa/OneDrive - The University of Manchester/projects/MakeMe/backend\" && \"/c/Users/mrisa/OneDrive - The University of Manchester/projects/MakeMe/env/Scripts/pip\" install \"pydantic[email]\" --quiet && \"/c/Users/mrisa/OneDrive - The University of Manchester/projects/MakeMe/env/Scripts/python\" -m pytest tests/ -v 2>&1)",
+      "Bash(env/Scripts/python:*)",
+      "Bash(pip install:*)",
+      "Bash(where:*)",
+      "Bash(reg query:*)",
+      "Bash(yes:*)",
+      "Bash(source:*)"
     ]
   }
 }

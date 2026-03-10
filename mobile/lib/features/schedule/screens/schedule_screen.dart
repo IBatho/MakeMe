@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../core/api_client.dart';
 import '../../../models/event.dart';
 import '../../../services/websocket_service.dart';
 import '../providers/schedule_provider.dart';

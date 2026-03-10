@@ -12,8 +12,23 @@ import '../features/activity/screens/activity_tracker_screen.dart';
 import '../features/insights/screens/insights_screen.dart';
 import '../widgets/scaffold_with_nav.dart';
 
+/// Bridges Riverpod auth state changes into a [Listenable] for GoRouter.
+class _AuthRefreshListenable extends ChangeNotifier {
+  _AuthRefreshListenable(Ref ref) {
+    _sub = ref.listen<AuthState>(authProvider, (_, __) => notifyListeners());
+  }
+  late final ProviderSubscription<AuthState> _sub;
+
+  @override
+  void dispose() {
+    _sub.close();
+    super.dispose();
+  }
+}
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final authNotifier = ref.watch(authProvider.notifier);
+  final refreshListenable = _AuthRefreshListenable(ref);
+  ref.onDispose(refreshListenable.dispose);
 
   return GoRouter(
     initialLocation: '/schedule',
@@ -25,7 +40,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (isLoggedIn && isOnLogin) return '/schedule';
       return null;
     },
-    refreshListenable: authNotifier,
+    refreshListenable: refreshListenable,
     routes: [
       GoRoute(
         path: '/login',

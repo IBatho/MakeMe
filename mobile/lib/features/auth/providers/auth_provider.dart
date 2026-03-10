@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
@@ -39,7 +38,7 @@ class AuthState {
       );
 }
 
-class AuthNotifier extends StateNotifier<AuthState> with ChangeNotifier {
+class AuthNotifier extends StateNotifier<AuthState> {
   final ApiClient _api;
   final FlutterSecureStorage _storage;
 
@@ -60,7 +59,6 @@ class AuthNotifier extends StateNotifier<AuthState> with ChangeNotifier {
         state = const AuthState();
       }
     }
-    notifyListeners();
   }
 
   Future<bool> login(String email, String password) async {
@@ -72,15 +70,13 @@ class AuthNotifier extends StateNotifier<AuthState> with ChangeNotifier {
       );
       await _saveTokens(resp.data);
       await _fetchMe();
-      notifyListeners();
-      return true;
+        return true;
     } on DioException catch (e) {
       state = state.copyWith(
         isLoading: false,
         error: e.response?.data?['detail'] as String? ?? 'Login failed',
       );
-      notifyListeners();
-      return false;
+        return false;
     }
   }
 
@@ -93,23 +89,20 @@ class AuthNotifier extends StateNotifier<AuthState> with ChangeNotifier {
       );
       await _saveTokens(resp.data);
       await _fetchMe();
-      notifyListeners();
-      return true;
+        return true;
     } on DioException catch (e) {
       state = state.copyWith(
         isLoading: false,
         error: e.response?.data?['detail'] as String? ?? 'Registration failed',
       );
-      notifyListeners();
-      return false;
+        return false;
     }
   }
 
   Future<void> logout() async {
-    await _api.dio.post('/auth/logout').catchError((_) => null);
+    await _api.dio.post('/auth/logout').catchError((_) => Response(requestOptions: RequestOptions(path: '/auth/logout')));
     await _storage.deleteAll();
     state = const AuthState();
-    notifyListeners();
   }
 
   Future<void> _saveTokens(Map<String, dynamic> data) async {
